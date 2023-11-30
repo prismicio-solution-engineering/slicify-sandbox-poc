@@ -1,4 +1,5 @@
 import { Container } from "@/components/Container";
+import { fetchJobOpenings } from "@/utils/getJobList";
 import { Content } from "@prismicio/client";
 import { PrismicNextImage, PrismicNextLink } from "@prismicio/next";
 import { PrismicRichText, SliceComponentProps } from "@prismicio/react";
@@ -11,9 +12,9 @@ export type JobListProps = SliceComponentProps<Content.JobListSlice>;
 /**
  * Component for "JobList" Slices.
  */
-const JobList = ({ slice, context }: JobListProps): JSX.Element => {
+const JobList = async ({ slice }: JobListProps): JSX.Element => {
 
-  const jobOpenings = context.jobOpenings;
+  const jobOpenings = await fetchJobOpenings();
 
   return (
     <section id={slice.primary.anchor || undefined}>

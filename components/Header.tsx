@@ -1,3 +1,4 @@
+"use client"
 import { Fragment, ReactNode, useState } from "react";
 import Link from "next/link";
 import { Popover, Transition } from "@headlessui/react";
@@ -17,7 +18,7 @@ import HeaderLinkDefault from "./HeaderLinkDefault";
 import HeaderLinkButton from "./HeaderLinkButton";
 import { Search } from "./Search";
 import { performSearch } from "@/utils/performSearch";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 function MobileNavLink({
   link,
@@ -132,19 +133,14 @@ type HeaderProps = {
 };
 
 export function Header({ header, languages }: HeaderProps) {
+  
+  // const router = useRouter();
 
-  const [searchQuery, setSearchQuery] = useState("");
-  const router = useRouter();
+  // const handleSearch = (query: string) => {
+  //   // Go to search page with the query parameter
 
-  const handleSearch = (query: string) => {
-    setSearchQuery(query);
-
-    // Go to search page with the query parameter
-    router.push({
-      pathname: "/search",
-      query: { query },
-    });
-  };
+  //   router.push(`/search?query=${query}`)
+  // };
   
   return (
     <header className="py-10">
@@ -167,7 +163,7 @@ export function Header({ header, languages }: HeaderProps) {
                     return <HeaderLinkDefault key={index} {...link} />;
                 }
               })}
-              <Search onSearch={handleSearch} initialQuery="" title={header.modal_title} />
+              {/* <Search onSearch={handleSearch} initialQuery="" title={header.modal_title} /> */}
             </div>
           </div>
           <div className="flex items-center gap-x-5 md:gap-x-8">

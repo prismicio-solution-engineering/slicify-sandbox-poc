@@ -3,6 +3,7 @@ import { PrismicRichText, SliceComponentProps } from "@prismicio/react";
 import { ShowcaseCard } from "./ShowcaseCard";
 import { Container } from "@/components/Container";
 import { UnderlineDoodle } from "@/components/UnderlineDoodle";
+import { getShowcaseWebsites } from "@/utils/getShowcaseWebsites";
 
 export type Website = {
   name: string;
@@ -28,13 +29,16 @@ export type FeaturedWebsitesListProps =
 /**
  * Component for "FeaturedWebsitesList" Slices.
  */
-const FeaturedWebsitesList = ({
+const FeaturedWebsitesList = async ({
   slice,
-  context,
 }: FeaturedWebsitesListProps): JSX.Element => {
+
+
+  const showcaseWebsites: Content.AllDocumentTypes[] = await getShowcaseWebsites(3);
+
   const websiteList: Website[] =
     slice.variation == "autoList"
-      ? context.showcaseWebsites.map((website) => ({
+      ? showcaseWebsites.map((website) => ({
           name: asText(website.data.name),
           screenshot: website.data.screenshot,
           link: website.data.link,

@@ -1,3 +1,5 @@
+'use client';
+
 import type { Content } from "@prismicio/client";
 
 // Tailwind imports
@@ -7,6 +9,7 @@ import { Disclosure } from "@headlessui/react";
 import { MinusSmallIcon, PlusSmallIcon } from "@heroicons/react/24/outline";
 import backgroundImageBlue from "@/images/background-call-to-action.jpg";
 import Image from "next/image";
+import React from 'react';
 
 export default function FaqCentered({
   slice,

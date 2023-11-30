@@ -11,19 +11,22 @@ import {
   isOfTypeAuthorDocument,
   isOfTypeBlogCategoryDocument,
 } from "@/utils/graphQueries";
+import { getArticles } from "@/utils/getArticles";
 
 type BlogIndexLayoutProps = {
-  articles: BlogArticleDocument[] | null;
   page: BlogIndexDocument | SearchDocument | null;
 };
 
-export function ArticleListVertical(
+export async function ArticleListVertical(
   props: PropsWithChildren<BlogIndexLayoutProps>
-) {
+): JSX.Element {
+
+  const articles = await getArticles();
+
   return (
     <div className="bg-white pb-24 sm:pb-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        {props.page &&
+        {props.page && (
           <div>
             <PrismicRichText
               field={props.page.data.title}
@@ -51,10 +54,10 @@ export function ArticleListVertical(
               }}
             />
           </div>
-        }
+        )}
 
         <div className="mt-16 space-y-20 lg:mt-20 lg:space-y-20">
-          {props.articles?.map((article) => (
+          {articles?.map((article) => (
             <article
               key={article.id}
               className="relative isolate flex flex-col gap-8 lg:flex-row rounded-2xl shadow-xl shadow-slate-900/10"
@@ -68,17 +71,21 @@ export function ArticleListVertical(
               <div className="py-2 flex-1 px-4 lg:px-0">
                 <div className="flex flex-row items-center text-sm gap-x-4">
                   <time
-                    dateTime={article.last_publication_date && prismic
-                      .asDate(article.last_publication_date)
-                      .toISOString()}
+                    dateTime={
+                      article.last_publication_date &&
+                      prismic
+                        .asDate(article.last_publication_date)
+                        .toISOString()
+                    }
                   >
-                    {article.last_publication_date && prismic
-                      .asDate(article.last_publication_date)
-                      .toLocaleString(article.lang, {
-                        year: "numeric",
-                        month: "short",
-                        day: "numeric",
-                      })}
+                    {article.last_publication_date &&
+                      prismic
+                        .asDate(article.last_publication_date)
+                        .toLocaleString(article.lang, {
+                          year: "numeric",
+                          month: "short",
+                          day: "numeric",
+                        })}
                   </time>
                   {isOfTypeBlogCategoryDocument(article.data?.category) && (
                     <PrismicLink
