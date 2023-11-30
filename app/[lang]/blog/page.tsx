@@ -7,27 +7,23 @@ import { getLanguages } from "@/utils/getLanguages";
 import MarketingLayout from "@/components/MarketingLayout";
 import { ArticleListVertical } from "@/components/ArticleListVertical";
 
-
-export default async function BlogIndex({params}: {params: {locale: string}}) {
-
+export default async function BlogIndex({
+  params: { lang },
+}: {
+  params: { lang: string };
+}) {
   const client = createClient();
   //    ^ Automatically contains references to document types
 
   const [page, header, footer] = await Promise.all([
-    client.getSingle<Content.BlogIndexDocument>("blog_index", {
-      lang: params.locale,
-    }),
-    client.getSingle<Content.HeaderDocument>("header", {
-        lang: params.locale,
-    }),
-    client.getSingle<Content.FooterDocument>("footer", {
-        lang: params.locale,
-    })
-  ])
+    client.getSingle<Content.BlogIndexDocument>("blog_index", { lang }),
+    client.getSingle<Content.HeaderDocument>("header", { lang }),
+    client.getSingle<Content.FooterDocument>("footer", { lang }),
+  ]);
 
   // const languages = await getLanguages(page, client, locales);
   const languages = await getLanguages(page, client);
-  
+
   return (
     <>
       <Head>
@@ -44,7 +40,7 @@ export default async function BlogIndex({params}: {params: {locale: string}}) {
         footer={footer.data}
         languages={languages}
       >
-        <ArticleListVertical 
+        <ArticleListVertical
           // articles={articles}
           page={page}
         />

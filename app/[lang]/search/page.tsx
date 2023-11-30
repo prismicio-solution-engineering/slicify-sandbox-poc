@@ -7,11 +7,14 @@ import { getLanguages } from "@/utils/getLanguages";
 import { Content } from "@prismicio/client";
 import { createClient } from "@/prismicio";
 import Head from "next/head";
+import { getLocales } from "@/utils/getLocales";
 
 
 const SearchPage = async (context) => {
   const { params } = context;
   const { lang } = params;
+
+  const locales = await getLocales();
 
   const searchParams = context.searchParams;
 
@@ -39,9 +42,8 @@ const SearchPage = async (context) => {
   // Pass the initialQuery to performSearch
   const results = await performSearch(searchQuery ? searchQuery.trim() : "");
 
-  // const languages = await getLanguages(page, client, locales);
-  const languages = await getLanguages(page, client, lang);
-  
+  const languages = await getLanguages(page, client, locales);
+
 
   return (
     <div>

@@ -5,27 +5,24 @@ import { SliceZone } from "@prismicio/react";
 import { components } from "@/slices/marketing";
 import { getLanguages } from "@/utils/getLanguages";
 import MarketingLayout from "@/components/MarketingLayout";
+import { getLocales } from "@/utils/getLocales";
 
-
-export default async function Home({params}: {params: {locale: string}}) {
-
+export default async function Home({
+  params: { lang },
+}: {
+  params: { lang: string };
+}) {
+  const locales = await getLocales();
+  
   const client = createClient();
 
-  const [page,header,footer] = await Promise.all([
-    client.getSingle<Content.HomePageDocument>("home_page", {
-      lang: params.locale,
-    }),
-    client.getSingle<Content.HeaderDocument>("header", {
-      lang: params.locale,
-    }),
-    client.getSingle<Content.FooterDocument>("footer", {
-      lang: params.locale,
-    })
-  ])
+  const [page, header, footer] = await Promise.all([
+    client.getSingle<Content.HomePageDocument>("home_page", { lang }),
+    client.getSingle<Content.HeaderDocument>("header", { lang }),
+    client.getSingle<Content.FooterDocument>("footer", { lang }),
+  ]);
 
-  // const languages = [];
-  // const languages = await getLanguages(page, client, locales);
-  const languages = await getLanguages(page, client); // Maybe use the languages from the repo API
+  const languages = await getLanguages(page, client, locales);
 
 
   return (
