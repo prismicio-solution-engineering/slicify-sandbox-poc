@@ -13,7 +13,7 @@ export default function RootLayout({
       {children}
       {/* <Footer /> */}
       <body>
-      <PrismicPreview repositoryName={repositoryName} />
+        <PrismicPreview repositoryName={repositoryName} />
       </body>
     </html>
   );
