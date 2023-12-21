@@ -6,7 +6,7 @@ import Link, { LinkProps } from "next/link";
 
 export const repositoryName = process.env.NEXT_PUBLIC_PRISMIC_REPO
   ? process.env.NEXT_PUBLIC_PRISMIC_REPO
-  : prismic.getRepositoryName(sm.apiEndpoint);
+  : sm.repositoryName;
 
 // Update the routes array to match your project's route structure
 /** @type {prismic.ClientConfig['routes']} **/
