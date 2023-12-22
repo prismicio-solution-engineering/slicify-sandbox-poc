@@ -26,7 +26,7 @@ type BlogLayoutProps = {
 
 export default function BlogLayout(props: PropsWithChildren<BlogLayoutProps>) {
   return (
-    <main>
+    <>
       <Header header={props.header} languages={props.languages} />
       <section>
         <div className="relative isolate overflow-hidden bg-black px-6">
@@ -109,6 +109,6 @@ export default function BlogLayout(props: PropsWithChildren<BlogLayoutProps>) {
       </section>
       {props.children}
       <Footer {...props.footer} />
-    </main>
+    </>
   );
 }

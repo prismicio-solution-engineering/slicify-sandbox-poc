@@ -16,10 +16,10 @@ export default function MarketingLayout(
   props: PropsWithChildren<MarketingLayoutProps>
 ) {
   return (
-    <main>
+    <>
       <Header header={props.header} languages={props.languages} />
       {props.children}
       <Footer {...props.footer} />
-    </main>
+    </>
   );
 }
