@@ -1,32 +1,44 @@
+"use client";
 import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { useRouter } from "next/router";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { KeyTextField } from "@prismicio/client";
 
 interface SearchProps {
   onSearch: (query: string) => void;
-  initialQuery: string;
   title: KeyTextField;
+  languages: {
+    url: string;
+    lang_name: string;
+  }[];
 }
 
-export const Search: React.FC<SearchProps> = ({ onSearch, initialQuery, title }) => {
+export const Search: React.FC<SearchProps> = ({
+  onSearch,
+  languages,
+  title,
+}) => {
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
+
   const [open, setOpen] = useState(false);
 
   const cancelButtonRef = useRef(null);
 
-  const router = useRouter();
-  const [query, setQuery] = useState(initialQuery || "");
+  const [query, setQuery] = useState(searchParams.get("query") || "");
 
   const handleSearch = () => {
-    if (router.pathname.includes("search")) {
-      // If on the search results page, call the onSearch callback directly
+    const params = new URLSearchParams(searchParams);
+    // If on the search results page, call the onSearch callback in Header
+    if (pathname.includes("search")) {
+      params.set("query", query);
       onSearch(query);
     } else {
       // If not on the search results page, navigate to it with the query as a parameter
-      router.push({
-        pathname: "/search",
-        query: { query: query },
-      });
+      params.set("query", query);
+      console.log("PARAMS", params.toString());
+      router.push(`/${languages[0].lang_name}/search?${params.toString()}`);
     }
   };
 
@@ -91,7 +103,9 @@ export const Search: React.FC<SearchProps> = ({ onSearch, initialQuery, title })
                 >
                   <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
                     <div>
-                      <h3 className="text-base font-semibold leading-6 text-gray-900">{title}</h3>
+                      <h3 className="text-base font-semibold leading-6 text-gray-900">
+                        {title}
+                      </h3>
                       <div className="mx-auto flex items-center justify-center">
                         <div className="relative mt-2 flex items-center w-full">
                           <form

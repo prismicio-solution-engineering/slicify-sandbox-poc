@@ -1,4 +1,3 @@
-import Head from "next/head";
 import { createClient } from "@/prismicio";
 import { Content } from "@prismicio/client";
 import { SliceZone } from "@prismicio/react";
@@ -6,12 +5,28 @@ import { components } from "@/slices/marketing";
 import { getLanguages } from "@/utils/getLanguages";
 import MarketingLayout from "@/components/MarketingLayout";
 import { ArticleListVertical } from "@/components/ArticleListVertical";
+import { Metadata } from "next";
+import { getLocales } from "@/utils/getLocales";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const client = createClient();
+  const page = await client.getSingle("blog_index");
+
+  return {
+    title: page.data.meta_title,
+    description: page.data.meta_description,
+  };
+}
 
 export default async function BlogIndex({
   params: { lang },
 }: {
   params: { lang: string };
 }) {
+
+  
+  const locales = await getLocales();
+
   const client = createClient();
   //    ^ Automatically contains references to document types
 
@@ -21,30 +36,16 @@ export default async function BlogIndex({
     client.getSingle<Content.FooterDocument>("footer", { lang }),
   ]);
 
-  // const languages = await getLanguages(page, client, locales);
-  const languages = await getLanguages(page, client);
+  const languages = await getLanguages(page, client, locales);
 
   return (
-    <>
-      <Head>
-        <title>{page.data.meta_title || "Slicify - Blog Home"}</title>
-        <meta
-          name="description"
-          content={page.data.meta_title || "Slicify Blog, slices for everyone."}
-        />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <MarketingLayout
-        header={header.data}
-        footer={footer.data}
-        languages={languages}
-      >
-        <ArticleListVertical
-          page={page}
-        />
-        <SliceZone slices={page.data.slices} components={components} />
-      </MarketingLayout>
-    </>
+    <MarketingLayout
+      header={header.data}
+      footer={footer.data}
+      languages={languages}
+    >
+      <ArticleListVertical page={page} lang={lang} hasArticleData={false} />
+      <SliceZone slices={page.data.slices} components={components} />
+    </MarketingLayout>
   );
 }

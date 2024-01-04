@@ -1,4 +1,3 @@
-import Head from "next/head";
 import { createClient } from "@/prismicio";
 import { SliceZone } from "@prismicio/react";
 import * as prismic from "@prismicio/client";
@@ -17,9 +16,27 @@ import { getLocales } from "@/utils/getLocales";
 
 type PageParams = { uid: string; lang: string };
 
+import { Metadata } from "next";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: PageParams;
+}): Promise<Metadata> {
+  const client = createClient();
+  const page = await client
+    .getByUID("blog_article", params.uid)
+    .catch(() => notFound());
+
+  return {
+    title: page.data.meta_title,
+    description: page.data.meta_description,
+  };
+}
+
 export default async function BlogArticle({ params }: { params: PageParams }) {
   const locales = await getLocales();
-  
+
   const client = createClient();
 
   const page = await client
@@ -39,19 +56,17 @@ export default async function BlogArticle({ params }: { params: PageParams }) {
   ]);
 
   return (
-    <>
-      <BlogLayout
-        header={header.data}
-        footer={footer.data}
-        languages={languages}
-        page={page}
-      >
-        <SliceZone
-          slices={page.data.slices}
-          components={{ ...mktComponents, ...blogComponents }}
-        />
-      </BlogLayout>
-    </>
+    <BlogLayout
+      header={header.data}
+      footer={footer.data}
+      languages={languages}
+      page={page}
+    >
+      <SliceZone
+        slices={page.data.slices}
+        components={{ ...mktComponents, ...blogComponents }}
+      />
+    </BlogLayout>
   );
 }
 

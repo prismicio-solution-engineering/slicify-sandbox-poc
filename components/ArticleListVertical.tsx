@@ -12,16 +12,21 @@ import {
   isOfTypeBlogCategoryDocument,
 } from "@/utils/graphQueries";
 import { getArticles } from "@/utils/getArticles";
+import { performSearch } from "@/utils/performSearch";
 
 type BlogIndexLayoutProps = {
   page: BlogIndexDocument | SearchDocument | null;
+  searchResults: BlogArticleDocument[] | null;
+  lang: string;
 };
+
+// Add a boolean in props, hasArticleData => if it has, don't getArtciles() just use the data, on search page boolean = true
 
 export async function ArticleListVertical(
   props: PropsWithChildren<BlogIndexLayoutProps>
-): JSX.Element {
+) {
 
-  const articles = await getArticles();
+  const articles = props?.page?.type === "blog_index" ? await getArticles(props.lang) : props.searchResults; // TODO : Pagination
 
   return (
     <div className="bg-white pb-24 sm:pb-32">
@@ -38,16 +43,6 @@ export async function ArticleListVertical(
                 ),
                 paragraph: ({ children }) => (
                   <p className="font-display text-3xl tracking-tight text-slate-900 sm:text-4xl">
-                    {children}
-                  </p>
-                ),
-              }}
-            />
-            <PrismicRichText
-              field={props.page.data.description}
-              components={{
-                paragraph: ({ children }) => (
-                  <p className="mt-2 text-lg leading-8 text-slate-700">
                     {children}
                   </p>
                 ),

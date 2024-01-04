@@ -1,5 +1,5 @@
-'use-client'
-import router from "next/router";
+'use client'
+import { useRouter } from "next/navigation";
 import { ChangeEvent } from "react";
 
 export function LanguageSwitcher(props: {
@@ -8,6 +8,8 @@ export function LanguageSwitcher(props: {
     lang_name: string;
   }[];
 }) {
+
+  const router = useRouter();
   function handleChange(event: ChangeEvent<HTMLSelectElement>): void {
     //Handle language redirects through the header language switch
     const newVersion = props.languages.find(
@@ -17,9 +19,7 @@ export function LanguageSwitcher(props: {
       //Redirect to 404 if alternative version does not exist
       router.push("/404");
     } else {
-      router.push(newVersion.url, newVersion.url, {
-        locale: event.target.value,
-      });
+      router.push(newVersion.url, newVersion.url);
     }
   }
 

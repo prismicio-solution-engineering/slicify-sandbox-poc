@@ -4,67 +4,61 @@ import { performSearch } from "@/utils/performSearch";
 import { BlogArticleDocument } from "@/prismicio-types";
 import MarketingLayout from "@/components/MarketingLayout";
 import { getLanguages } from "@/utils/getLanguages";
-import { Content } from "@prismicio/client";
+import { Content, asText } from "@prismicio/client";
 import { createClient } from "@/prismicio";
-import Head from "next/head";
 import { getLocales } from "@/utils/getLocales";
+import { Metadata } from "next";
 
+export async function generateMetadata(): Promise<Metadata> {
+  const client = createClient();
+  const page = await client.getSingle("search");
 
-const SearchPage = async (context) => {
-  const { params } = context;
-  const { lang } = params;
+  return {
+    title: asText(page.data.title),
+    description: `${page.data.title} : ${page.data.title}`,
+  };
+}
+
+export default async function SearchPage({
+  params: { lang },
+  searchParams,
+}: {
+  params: { lang: string };
+  searchParams: { query?: string; page?: string };
+}) {
 
   const locales = await getLocales();
 
-  const searchParams = context.searchParams;
-
   // Get the initial query parameter from the URL
   const initialQuery = searchParams.query || "";
-  const searchQuery = Array.isArray(initialQuery)
-    ? initialQuery[0]
-    : initialQuery;
 
   const client = createClient();
-  //    ^ Automatically contains references to document types
 
   const [page, header, footer] = await Promise.all([
     client.getSingle<Content.SearchDocument>("search", {
-      lang: lang,
+      lang,
     }),
     client.getSingle<Content.HeaderDocument>("header", {
-      lang: lang,
+      lang,
     }),
     client.getSingle<Content.FooterDocument>("footer", {
-      lang: lang,
+      lang,
     }),
   ]);
 
   // Pass the initialQuery to performSearch
-  const results = await performSearch(searchQuery ? searchQuery.trim() : "");
-
+  const results = await performSearch(initialQuery ? initialQuery.trim() : "", lang=lang );
   const languages = await getLanguages(page, client, locales);
 
-
   return (
-    <div>
-      <Head>
-        <title>{`Search results for ${initialQuery}`}</title>
-        <meta
-          name="description"
-          content={"Slicify Search results, slices for everyone."}
-        />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+    <>
       <MarketingLayout
         header={header.data}
         footer={footer.data}
         languages={languages}
       >
-        <ArticleListVertical articles={results ?? []} page={page} />
+        <ArticleListVertical page={page} searchResults={results ?? []} lang={lang} />
       </MarketingLayout>
-    </div>
+    </>
   );
-};
-
-export default SearchPage;
+}

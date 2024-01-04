@@ -1,4 +1,3 @@
-import Head from "next/head";
 import { createClient } from "@/prismicio";
 import { Content } from "@prismicio/client";
 import { SliceZone } from "@prismicio/react";
@@ -6,6 +5,17 @@ import { components } from "@/slices/marketing";
 import { getLanguages } from "@/utils/getLanguages";
 import MarketingLayout from "@/components/MarketingLayout";
 import { getLocales } from "@/utils/getLocales";
+import { Metadata } from "next";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const client = createClient();
+  const page = await client.getSingle("home_page"); // TODO : add graphquery to only fetch the fields and not the page
+
+  return {
+    title: page.data.meta_title,
+    description: page.data.meta_description,
+  };
+}
 
 export default async function Home({
   params: { lang },
@@ -13,7 +23,7 @@ export default async function Home({
   params: { lang: string };
 }) {
   const locales = await getLocales();
-  
+
   const client = createClient();
 
   const [page, header, footer] = await Promise.all([
@@ -24,25 +34,13 @@ export default async function Home({
 
   const languages = await getLanguages(page, client, locales);
 
-
   return (
-    <>
-      <Head>
-        <title>{page.data.meta_title || "Slicify | Home"}</title>
-        <meta
-          name="description"
-          content={page.data.meta_title || "Slicify, slices for everyone."}
-        />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <MarketingLayout
-        header={header.data}
-        footer={footer.data}
-        languages={languages}
-      >
-        <SliceZone slices={page.data.slices} components={components} />
-      </MarketingLayout>
-    </>
+    <MarketingLayout
+      header={header.data}
+      footer={footer.data}
+      languages={languages}
+    >
+      <SliceZone slices={page.data.slices} components={components} />
+    </MarketingLayout>
   );
 }

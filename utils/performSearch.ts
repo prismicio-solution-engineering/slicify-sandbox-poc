@@ -5,10 +5,11 @@ const client = prismic.createClient(
     "https://slicify-dianka.cdn.prismic.io/api/v2"
 );
 
-export const performSearch = async (query: string) => {
+export const performSearch = async (query: string, lang: string) => {
     if (query) {
         try {
             const response = await client.getByType("blog_article", {
+                lang,
                 filters: [
                     prismic.filter.fulltext("my.blog_article.title", query)],
                 graphQuery: blogIndexGraphQuery,

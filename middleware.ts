@@ -21,9 +21,19 @@ export async function middleware(request: NextRequest) {
       new URL(`/${defaultLocale}${pathname}`, request.url)
     );
   }
+
+  // // Check if pathname is search without query string
+  // const pathnameIsSearchWithoutQuery = pathname === '/search' && !request.url.includes('?')
+
+  // if (pathnameIsMissingLocale || pathnameIsSearchWithoutQuery) {
+  //   return NextResponse.rewrite(
+  //     new URL(`/${defaultLocale}${pathname}`, request.url)
+  //   );
+  // }
+
 }
 
 export const config = {
-	// Don’t change the URL of Next.js assets starting with _next
+  // Don’t change the URL of Next.js assets starting with _next
   matcher: ['/((?!_next|api|slice-simulator|icon.svg).*)'],
 };
