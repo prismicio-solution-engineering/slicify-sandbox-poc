@@ -3,6 +3,7 @@ import { fetchJobOpenings } from "@/utils/getJobList";
 import { Content } from "@prismicio/client";
 import { PrismicNextImage, PrismicNextLink } from "@prismicio/next";
 import { PrismicRichText, SliceComponentProps } from "@prismicio/react";
+import { Key, ReactElement, JSXElementConstructor, ReactNode, ReactPortal, PromiseLikeOfReactNode } from "react";
 
 /**
  * Props for `JobList`.
@@ -12,7 +13,7 @@ export type JobListProps = SliceComponentProps<Content.JobListSlice>;
 /**
  * Component for "JobList" Slices.
  */
-const JobList = async ({ slice }: JobListProps): JSX.Element => {
+const JobList = async ({ slice }: JobListProps): Promise<JSX.Element> => {
 
   const jobOpenings = await fetchJobOpenings();
 
@@ -49,7 +50,7 @@ const JobList = async ({ slice }: JobListProps): JSX.Element => {
           <div className="w-full lg:max-w-xl lg:flex-auto">
             <h3 className="sr-only">Job openings</h3>
             <ul className="-my-8 divide-y divide-gray-100">
-              {jobOpenings.map((opening) => (
+              {jobOpenings.map((opening: { id: string | undefined; position: string | undefined; team: string | undefined; location: string | undefined; }) => (
                 <li key={opening.id} className="py-8">
                   <dl className="relative flex flex-wrap gap-x-3">
                     <dt className="sr-only">Position</dt>

@@ -14,7 +14,7 @@ import { Content } from "@prismicio/client";
 import { notFound } from "next/navigation";
 import { getLocales } from "@/utils/getLocales";
 
-type PageParams = { uid: string; lang: string };
+type PageParams = { articleSlug: string[]; lang: string };
 
 import { Metadata } from "next";
 
@@ -25,7 +25,9 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const client = createClient();
   const page = await client
-    .getByUID("blog_article", params.uid)
+    .getByUID("blog_article", params.articleSlug[params.articleSlug.length-1], {
+      lang: params.lang
+    })
     .catch(() => notFound());
 
   return {
@@ -40,10 +42,11 @@ export default async function BlogArticle({ params }: { params: PageParams }) {
   const client = createClient();
 
   const page = await client
-    .getByUID<prismic.Content.BlogArticleDocument>("blog_article", params.uid, {
+    .getByUID<prismic.Content.BlogArticleDocument>("blog_article", params.articleSlug[params.articleSlug.length-1], {
       graphQuery: blogArticleGraphQuery,
+      lang: params.lang
     })
-    .catch(() => notFound());
+    .catch(() => notFound() );
 
   const [header, footer, languages] = await Promise.all([
     client.getSingle<Content.HeaderDocument>("header", {
@@ -73,11 +76,30 @@ export default async function BlogArticle({ params }: { params: PageParams }) {
 // Paths
 export async function generateStaticParams() {
   const client = createClient();
-  const pages = await client.getAllByType("blog_article");
+  const pages = await client.getAllByType("blog_article",{lang:"*"});
 
-  // console.log(pages.map((page) => ({ uid: page.uid, category: page.data.category.uid })));
+  function splitUrl(url: string) {
+    // Split the URL by '/' and remove any empty strings from the result
+    const parts = url.split('/').filter(part => part !== '');
+
+    // Assuming the URL format is consistent and has the language code as the first part,
+    // category as the third part, and UID as the last part
+    if(parts.length===3){
+      return {
+        lang: parts[0] || '',
+        articleSlug: [parts[2]] || ''
+      };
+    }
+    if(parts.length===4){
+      return {
+        lang: parts[0] || '',
+        articleSlug: [parts[2] || '' , parts[3] || '']
+      };
+    }
+    return null
+  }
 
   return pages.map((page) => {
-    return { uid: page.uid, category: page.data.category.uid };
-  });
+    return splitUrl(page.url!) ;
+  }).filter(page => page !== null);
 }

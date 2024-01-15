@@ -19,7 +19,7 @@ export function LanguageSwitcher(props: {
       //Redirect to 404 if alternative version does not exist
       router.push("/404");
     } else {
-      router.push(newVersion.url, newVersion.url);
+      router.push(newVersion.url);
     }
   }
 

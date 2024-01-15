@@ -36,7 +36,7 @@ const SearchResults = async ({
   ]);
 
   // Pass the initialQuery to performSearch
-  const results = await performSearch(searchQuery ? searchQuery.trim() : "");
+  const results = await performSearch(searchQuery ? searchQuery.trim() : "", lang);
 
   const languages = await getLanguages(page, client, locales);
 
@@ -48,7 +48,7 @@ const SearchResults = async ({
         footer={footer.data}
         languages={languages}
       >
-        <ArticleListVertical articles={results ?? []} page={page} />
+        <ArticleListVertical lang={lang} searchResults={results ?? []} page={page} />
       </MarketingLayout>
     </>
   );

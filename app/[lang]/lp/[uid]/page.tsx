@@ -19,7 +19,9 @@ export async function generateMetadata({
   const client = createClient();
 
   const page = await client
-    .getByUID("landing_page", params.uid)
+    .getByUID("landing_page", params.uid, {
+      lang: params.lang,
+    })
     .catch(() => notFound());
 
   return {

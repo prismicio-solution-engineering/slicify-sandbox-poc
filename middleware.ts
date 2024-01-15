@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/prismicio';
+// import { createClient } from '@/prismicio';
 
 export async function middleware(request: NextRequest) {
-  const client = createClient();
-  const repository = await client.getRepository();
+  // const client = createClient();
+  // const repository = await client.getRepository();
 
-  const locales = repository.languages.map((lang) => lang.id);
+  //const locales = repository.languages.map((lang) => lang.id); //to check how to avoid hardcoding locals TODO
+  const locales =["en-us","fr-fr"]
   const defaultLocale = locales[0];
 
   // Check if there is any supported locale in the pathname

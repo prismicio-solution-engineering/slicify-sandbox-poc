@@ -44,7 +44,7 @@ export default async function BlogIndex({
       footer={footer.data}
       languages={languages}
     >
-      <ArticleListVertical page={page} lang={lang} hasArticleData={false} />
+      <ArticleListVertical page={page} lang={lang} />
       <SliceZone slices={page.data.slices} components={components} />
     </MarketingLayout>
   );

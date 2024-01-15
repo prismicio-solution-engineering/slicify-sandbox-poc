@@ -1,9 +1,9 @@
-import { Content, asText } from "@prismicio/client";
+import { Content, FilledLinkToWebField, ImageField, IntegrationField, PrismicDocument, RichTextField, asText, isFilled } from "@prismicio/client";
 import { PrismicRichText, SliceComponentProps } from "@prismicio/react";
 import { ShowcaseCard } from "./ShowcaseCard";
 import { Container } from "@/components/Container";
 import { UnderlineDoodle } from "@/components/UnderlineDoodle";
-import { getShowcaseWebsites } from "@/utils/getShowcaseWebsites";
+import { WebsiteDocument, getShowcaseWebsites } from "@/utils/getShowcaseWebsites";
 
 export type Website = {
   name: string;
@@ -14,11 +14,12 @@ export type Website = {
   link: {
     link_type: string;
     url: string;
-    target: string;
+    target?: string;
   };
   technology?: string;
   industry?: string;
 };
+
 
 /**
  * Props for `FeaturedWebsitesList`.
@@ -31,21 +32,32 @@ export type FeaturedWebsitesListProps =
  */
 const FeaturedWebsitesList = async ({
   slice,
-}: FeaturedWebsitesListProps): JSX.Element => {
+}: FeaturedWebsitesListProps) => {
 
-
-  const showcaseWebsites: Content.AllDocumentTypes[] = await getShowcaseWebsites(3);
+  const showcaseWebsites: WebsiteDocument[] = await getShowcaseWebsites(3);
 
   const websiteList: Website[] =
     slice.variation == "autoList"
       ? showcaseWebsites.map((website) => ({
-          name: asText(website.data.name),
-          screenshot: website.data.screenshot,
-          link: website.data.link,
-          technology: website.data.website_technology.uid,
-          industry: website.data.industry.uid,
-        }))
-      : slice.items.map((website) => website.website);
+        name: asText(website.data.name),
+        screenshot: {
+          url: website.data.screenshot.url!,
+          alt: website.data.screenshot.alt!
+        },
+        link:  isFilled.link(website.data.link) ? {
+          link_type: website.data.link.link_type,
+          url: website.data.link.url,
+          target: website.data.link.target
+        }
+        : {
+          link_type: "Web",
+          url: "#",
+        },
+        technology: website.data.website_technology.uid,
+        industry: website.data.industry.uid,
+      }))
+      : slice.items.map((website) => ({...website.website, link:{ url:website.website?.website_link, link_type: "Web" }} as IntegrationField<Website>)!);
+
 
   return (
     <section

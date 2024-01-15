@@ -16,7 +16,7 @@ import { performSearch } from "@/utils/performSearch";
 
 type BlogIndexLayoutProps = {
   page: BlogIndexDocument | SearchDocument | null;
-  searchResults: BlogArticleDocument[] | null;
+  searchResults?: BlogArticleDocument[] | null;
   lang: string;
 };
 

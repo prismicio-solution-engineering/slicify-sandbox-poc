@@ -1,8 +1,9 @@
 import * as prismic from "@prismicio/client";
 import { blogIndexGraphQuery } from "@/utils/graphQueries";
+import { repositoryName } from "@/prismicio"
 
 const client = prismic.createClient(
-    "https://slicify-dianka.cdn.prismic.io/api/v2"
+    repositoryName
 );
 
 export const performSearch = async (query: string, lang: string) => {
