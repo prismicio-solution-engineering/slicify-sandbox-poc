@@ -1,6 +1,7 @@
 import {
   BlogArticleDocument,
   BlogIndexDocument,
+  SearchDocument,
 } from "@/prismicio-types";
 import { PrismicNextImage } from "@prismicio/next";
 import { PrismicLink, PrismicRichText } from "@prismicio/react";
@@ -10,40 +11,48 @@ import {
   isOfTypeAuthorDocument,
   isOfTypeBlogCategoryDocument,
 } from "@/utils/graphQueries";
+import { getArticles } from "@/utils/getArticles";
+import { performSearch } from "@/utils/performSearch";
 
 type BlogIndexLayoutProps = {
-  articles: BlogArticleDocument[] | null;
-  page: BlogIndexDocument;
+  page: BlogIndexDocument | SearchDocument | null;
+  searchResults?: BlogArticleDocument[] | null;
+  lang: string;
 };
 
-export function ArticleListVertical(
+// Add a boolean in props, hasArticleData => if it has, don't getArtciles() just use the data, on search page boolean = true
+
+export async function ArticleListVertical(
   props: PropsWithChildren<BlogIndexLayoutProps>
 ) {
+
+  const articles = props?.page?.type === "blog_index" ? await getArticles(props.lang) : props.searchResults; // TODO : Pagination
+
   return (
     <div className="bg-white pb-24 sm:pb-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <PrismicRichText
-          field={props.page.data.title}
-          components={{
-            heading1: ({ children }) => (
-              <h1 className="font-display text-3xl tracking-tight text-slate-900 sm:text-4xl">
-                {children}
-              </h1>
-            ),
-          }}
-        />
-        <PrismicRichText
-          field={props.page.data.description}
-          components={{
-            paragraph: ({ children }) => (
-              <p className="mt-2 text-lg leading-8 text-slate-700">
-                {children}
-              </p>
-            ),
-          }}
-        />
+        {props.page && (
+          <div>
+            <PrismicRichText
+              field={props.page.data.title}
+              components={{
+                heading1: ({ children }) => (
+                  <h1 className="font-display text-3xl tracking-tight text-slate-900 sm:text-4xl">
+                    {children}
+                  </h1>
+                ),
+                paragraph: ({ children }) => (
+                  <p className="font-display text-3xl tracking-tight text-slate-900 sm:text-4xl">
+                    {children}
+                  </p>
+                ),
+              }}
+            />
+          </div>
+        )}
+
         <div className="mt-16 space-y-20 lg:mt-20 lg:space-y-20">
-          {props.articles?.map((article) => (
+          {articles?.map((article) => (
             <article
               key={article.id}
               className="relative isolate flex flex-col gap-8 lg:flex-row rounded-2xl shadow-xl shadow-slate-900/10"
@@ -57,17 +66,21 @@ export function ArticleListVertical(
               <div className="py-2 flex-1 px-4 lg:px-0">
                 <div className="flex flex-row items-center text-sm gap-x-4">
                   <time
-                    dateTime={article.last_publication_date && prismic
-                      .asDate(article.last_publication_date)
-                      .toISOString()}
+                    dateTime={
+                      article.last_publication_date &&
+                      prismic
+                        .asDate(article.last_publication_date)
+                        .toISOString()
+                    }
                   >
-                    {article.last_publication_date && prismic
-                      .asDate(article.last_publication_date)
-                      .toLocaleString(article.lang, {
-                        year: "numeric",
-                        month: "short",
-                        day: "numeric",
-                      })}
+                    {article.last_publication_date &&
+                      prismic
+                        .asDate(article.last_publication_date)
+                        .toLocaleString(article.lang, {
+                          year: "numeric",
+                          month: "short",
+                          day: "numeric",
+                        })}
                   </time>
                   {isOfTypeBlogCategoryDocument(article.data?.category) && (
                     <PrismicLink

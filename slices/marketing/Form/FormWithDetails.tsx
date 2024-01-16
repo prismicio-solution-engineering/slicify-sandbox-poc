@@ -1,3 +1,4 @@
+'use client';
 import { Button } from "@/components/Button";
 import type { Content } from "@prismicio/client";
 import Image from "next/image";

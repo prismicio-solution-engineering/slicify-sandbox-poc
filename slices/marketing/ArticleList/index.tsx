@@ -1,4 +1,4 @@
-import type { Content } from "@prismicio/client";
+import { isFilled, type Content } from "@prismicio/client";
 
 import {
   PrismicLink,
@@ -8,18 +8,41 @@ import {
 import * as prismic from "@prismicio/client";
 import { PrismicNextImage } from "@prismicio/next";
 import {
+  blogArticleGraphQuery,
   isOfTypeAuthorDocument,
   isOfTypeBlogArticleDocument,
   isOfTypeBlogCategoryDocument,
 } from "@/utils/graphQueries";
+import { createClient } from "@/prismicio";
+import { BlogArticleDocument } from "@/prismicio-types";
 
 export type ArticleListProps = SliceComponentProps<Content.ArticleListSlice>;
 
-function HorizontalThreeColumn({
+async function HorizontalThreeColumn({
   slice,
 }: {
   slice: Content.ArticleListSliceHorizontalList;
 }) {
+
+  const client = createClient();
+
+  const articlesUids: string[] = slice.items.map((item) => {
+    if (isFilled.contentRelationship(item.article)) {
+      return item.article.uid!;
+    }
+
+    return "";
+  });
+
+  const articles = await client.getByUIDs<BlogArticleDocument>(
+    "blog_article",
+    articlesUids,
+    {
+      // lang: locale,
+      graphQuery: blogArticleGraphQuery,
+    }
+  );
+
   return (
     <div className="bg-white py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -46,9 +69,10 @@ function HorizontalThreeColumn({
           />
         </div>
         <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-20 lg:max-w-none lg:grid-cols-3">
-          {slice.items?.map((post, idx) => {
+          {/* {slice.items?.map((post, idx) => { */}
+          {articles.results.map((article, idx) => {
             return (
-              isOfTypeBlogArticleDocument(post.article) && (
+              // isOfTypeBlogArticleDocument(article?) && (
                 <article
                   key={idx}
                   className="flex flex-col items-start justify-between roundedshadow-xl rounded-2xl bg-white shadow-xl shadow-slate-900/10"
@@ -56,40 +80,48 @@ function HorizontalThreeColumn({
                   <div className="relative w-full">
                     <PrismicNextImage
                       className="aspect-[16/9] w-full rounded-t-2xl bg-gray-100 object-cover sm:aspect-[2/1] lg:aspect-[3/2]"
-                      field={post.article?.data?.featured_image}
+                      field={article?.data?.featured_image}
                       unoptimized
                     />
                   </div>
                   <div className="max-w-xl p-6">
                     <div className="flex items-center gap-x-4 text-xs">
                       <time
-                        dateTime={post.article.last_publication_date && prismic
-                          .asDate(post.article.last_publication_date as `${number}-${number}-${number}T${number}:${number}:${number}+${number}`)
-                          .toISOString()}
+                        dateTime={
+                          article?.last_publication_date &&
+                          prismic
+                            .asDate(
+                              article?.last_publication_date as `${number}-${number}-${number}T${number}:${number}:${number}+${number}`
+                            )
+                            .toISOString()
+                        }
                       >
-                        {post.article.last_publication_date && prismic
-                          .asDate(post.article.last_publication_date  as `${number}-${number}-${number}T${number}:${number}:${number}+${number}`)
-                          .toLocaleString(post.article.lang, {
-                            year: "numeric",
-                            month: "short",
-                            day: "numeric",
-                          })}
+                        {article.last_publication_date &&
+                          prismic
+                            .asDate(
+                              article?.last_publication_date as `${number}-${number}-${number}T${number}:${number}:${number}+${number}`
+                            )
+                            .toLocaleString(article?.lang, {
+                              year: "numeric",
+                              month: "short",
+                              day: "numeric",
+                            })}
                       </time>
                       {isOfTypeBlogCategoryDocument(
-                        post.article.data?.category
+                        article?.data?.category
                       ) && (
                         <PrismicLink
                           className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
-                          field={post.article.data?.category}
+                          field={article?.data?.category}
                         >
-                          {post.article.data?.category.data?.category_name}
+                          {article?.data?.category.data?.category_name}
                         </PrismicLink>
                       )}
                     </div>
-                    <PrismicLink field={post.article}>
+                    <PrismicLink document={article}>
                       <div className="group relative mt-4">
                         <PrismicRichText
-                          field={post.article.data?.title}
+                          field={article?.data?.title}
                           components={{
                             heading1: ({ children }) => (
                               <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
@@ -100,7 +132,7 @@ function HorizontalThreeColumn({
                           }}
                         />
                         <PrismicRichText
-                          field={post.article.data?.excerpt}
+                          field={article?.data?.excerpt}
                           components={{
                             paragraph: ({ children }) => (
                               <p className="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">
@@ -111,23 +143,23 @@ function HorizontalThreeColumn({
                         />
                       </div>
                     </PrismicLink>
-                    {isOfTypeAuthorDocument(post.article.data?.author) && (
+                    {isOfTypeAuthorDocument(article?.data?.author) && (
                       <div className="relative mt-8 flex items-center gap-x-4">
                         <PrismicNextImage
-                          field={post.article.data?.author.data?.author_image}
+                          field={article?.data?.author.data?.author_image}
                           className="h-10 w-10 rounded-full object-cover bg-gray-100"
                           width={48}
                           height={48}
                         />
                         <div className="text-sm leading-6">
                           <p className="font-semibold text-gray-900">
-                            <PrismicLink field={post.article.data?.author}>
+                            <PrismicLink field={article?.data?.author}>
                               <span className="absolute inset-0" />
-                              {post.article.data?.author.data?.author_name}
+                              {article?.data?.author.data?.author_name}
                             </PrismicLink>
                           </p>
                           <p className="text-gray-600">
-                            {post.article.data?.author.data?.author_role}
+                            {article?.data?.author.data?.author_role}
                           </p>
                         </div>
                       </div>
@@ -135,7 +167,7 @@ function HorizontalThreeColumn({
                   </div>
                 </article>
               )
-            );
+            // );
           })}
         </div>
       </div>

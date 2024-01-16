@@ -4,9 +4,9 @@ import sm from "./slicemachine.config.json";
 import { KeyTextField } from "@prismicio/client";
 import Link, { LinkProps } from "next/link";
 
-export const repositoryName = process.env.NEXT_PUBLIC_PRISMIC_REPO
-  ? process.env.NEXT_PUBLIC_PRISMIC_REPO
-  : prismic.getRepositoryName(sm.apiEndpoint);
+export const repositoryName = process.env.NEXT_PUBLIC_PRISMIC_ENVIRONMENT
+  ? process.env.NEXT_PUBLIC_PRISMIC_ENVIRONMENT
+  : sm.repositoryName;
 
 // Update the routes array to match your project's route structure
 /** @type {prismic.ClientConfig['routes']} **/
@@ -29,20 +29,25 @@ const routes = [
   {
     type: "landing_page",
     path: "/:lang/lp/:uid",
+  },
+  {
+    type: "search",
+    path: "/:lang/search",
   }
 ];
 
-export function createClient({
-  previewData,
-  req,
-  ...config
-}: prismicNext.CreateClientConfig = {}) {
-  const client = prismic.createClient(repositoryName, { routes, ...config });
-
-  prismicNext.enableAutoPreviews({ client, previewData, req });
-
+export const createClient = (config = {}) => {
+  const client = prismic.createClient(repositoryName, {
+    routes,
+    fetchOptions:
+      process.env.NODE_ENV === "production"
+        ? { next: { tags: ["prismic"] }, cache: "force-cache" }
+        : { next: { revalidate: 5 } },
+    ...config,
+  });
+  prismicNext.enableAutoPreviews({ client });
   return client;
-}
+};
 
 interface AnchorLinkProps extends LinkProps {
   anchor?: KeyTextField;

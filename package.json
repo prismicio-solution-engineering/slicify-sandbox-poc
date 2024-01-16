@@ -1,6 +1,6 @@
 {
   "name": "slicify",
-  "version": "0.1.0",
+  "version": "3.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -10,34 +10,37 @@
     "slicemachine": "start-slicemachine"
   },
   "dependencies": {
+    "@growthbook/growthbook-react": "^0.18.0",
     "@headlessui/react": "^1.7.13",
     "@heroicons/react": "^2.0.17",
-    "@prismicio/client": "^7.1.0",
-    "@prismicio/next": "^1.0.3",
-    "@prismicio/react": "^2.5.2",
+    "@prismicio/client": "^7.3.1",
+    "@prismicio/next": "^1.5.0",
+    "@prismicio/react": "^2.7.3",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/forms": "^0.5.3",
     "@tailwindcss/typography": "^0.5.9",
     "@types/node": "18.14.6",
-    "@types/react": "18.0.28",
-    "@types/react-dom": "18.0.11",
+    "@types/react": "^18.2.48",
+    "@types/react-dom": "^18.2.18",
     "clsx": "^2.0.0",
     "eslint": "8.35.0",
-    "eslint-config-next": "^13.4.3",
-    "next": "^13.4.3",
+    "eslint-config-next": "^14.0.4",
+    "negotiator": "^0.6.3",
+    "next": "^14.0.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-syntax-highlighter": "^15.5.0",
     "sharp": "^0.32.0",
-    "typescript": "4.9.5"
+    "typescript": "^5.3.3"
   },
   "devDependencies": {
-    "@slicemachine/adapter-next": "^0.3.12",
+    "@slicemachine/adapter-next": "^0.3.32",
+    "@types/negotiator": "^0.6.3",
     "@types/react-syntax-highlighter": "^15.5.7",
     "autoprefixer": "^10.4.14",
     "postcss": "^8.4.21",
     "prettier": "2.8.7",
-    "slice-machine-ui": "^1.10.0",
+    "slice-machine-ui": "^1.22.2",
     "tailwindcss": "^3.3.1"
   }
 }

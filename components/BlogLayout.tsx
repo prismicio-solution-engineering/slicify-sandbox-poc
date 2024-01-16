@@ -5,7 +5,7 @@ import {
 } from "@/prismicio-types";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, Suspense } from "react";
 import { PrismicNextImage } from "@prismicio/next";
 import { PrismicLink, PrismicRichText } from "@prismicio/react";
 import { UnderlineDoodle } from "./UnderlineDoodle";
@@ -26,8 +26,10 @@ type BlogLayoutProps = {
 
 export default function BlogLayout(props: PropsWithChildren<BlogLayoutProps>) {
   return (
-    <main>
-      <Header header={props.header} languages={props.languages} />
+    <>
+      <Suspense>
+        <Header header={props.header} languages={props.languages} />
+      </Suspense>
       <section>
         <div className="relative isolate overflow-hidden bg-black px-6">
           <PrismicNextImage
@@ -109,6 +111,6 @@ export default function BlogLayout(props: PropsWithChildren<BlogLayoutProps>) {
       </section>
       {props.children}
       <Footer {...props.footer} />
-    </main>
+    </>
   );
 }

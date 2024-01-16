@@ -669,7 +669,17 @@ interface HeaderDocumentData {
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#slices
    */
-  slices: prismic.SliceZone<HeaderDocumentDataSlicesSlice>;
+  slices: prismic.SliceZone<HeaderDocumentDataSlicesSlice>
+  /**
+   * Modal title field in *Header*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: header.modal_title
+   * - **Tab**: Search Modal
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */;
+  modal_title: prismic.KeyTextField;
 }
 
 /**
@@ -697,7 +707,8 @@ type HomePageDocumentDataSlicesSlice =
   | HeroSlice
   | LogoCloudSlice
   | TestimonialsSlice
-  | ManualSliceSlice;
+  | FeaturedWebsitesListSlice
+  | JobListSlice;
 
 /**
  * Item in *Home Page → Social Cards - Facebook & Twitter*
@@ -819,7 +830,8 @@ type LandingPageDocumentDataSlicesSlice =
   | FormSlice
   | TestimonialsSlice
   | FeaturesSlice
-  | HeroSlice;
+  | HeroSlice
+  | FeaturedWebsitesListSlice;
 
 /**
  * Item in *Landing Page → Social Cards - Facebook & Twitter*
@@ -854,6 +866,31 @@ export interface LandingPageDocumentDataSocialCardsItem {
    * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   social_card_description: prismic.KeyTextField;
+}
+
+/**
+ * Item in *Landing Page → Variants*
+ */
+export interface LandingPageDocumentDataVariantsItem {
+  /**
+   * Variant field in *Landing Page → Variants*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: landing_page.variants[].variant
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  variant: prismic.ContentRelationshipField<"landing_page">;
+
+  /**
+   * Bucket field in *Landing Page → Variants*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: landing_page.variants[].bucket
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  bucket: prismic.KeyTextField;
 }
 
 /**
@@ -914,7 +951,29 @@ interface LandingPageDocumentData {
    */
   social_cards: prismic.GroupField<
     Simplify<LandingPageDocumentDataSocialCardsItem>
-  >;
+  >
+  /**
+   * Variants field in *Landing Page*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: landing_page.variants[]
+   * - **Tab**: AB Testing Config
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */;
+  variants: prismic.GroupField<Simplify<LandingPageDocumentDataVariantsItem>>;
+
+  /**
+   * Is Variant field in *Landing Page*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: landing_page.is_variant
+   * - **Tab**: AB Testing Config
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  is_variant: prismic.BooleanField;
 }
 
 /**
@@ -933,6 +992,38 @@ export type LandingPageDocument<Lang extends string = string> =
     Lang
   >;
 
+/**
+ * Content for Search documents
+ */
+interface SearchDocumentData {
+  /**
+   * Title field in *Search*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: search.title
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.RichTextField;
+}
+
+/**
+ * Search document from Prismic
+ *
+ * - **API ID**: `search`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type SearchDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<SearchDocumentData>,
+    "search",
+    Lang
+  >;
+
 export type AllDocumentTypes =
   | AuthorDocument
   | BlogArticleDocument
@@ -941,7 +1032,8 @@ export type AllDocumentTypes =
   | FooterDocument
   | HeaderDocument
   | HomePageDocument
-  | LandingPageDocument;
+  | LandingPageDocument
+  | SearchDocument;
 
 /**
  * Primary content in *ArticleList → Primary*
@@ -1645,6 +1737,176 @@ type FaqSliceVariation =
  * - **Documentation**: https://prismic.io/docs/slice
  */
 export type FaqSlice = prismic.SharedSlice<"faq", FaqSliceVariation>;
+
+/**
+ * Primary content in *FeaturedWebsitesList → Primary*
+ */
+export interface FeaturedWebsitesListSliceDefaultPrimary {
+  /**
+   * Title field in *FeaturedWebsitesList → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: featured_websites_list.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.RichTextField;
+
+  /**
+   * Description field in *FeaturedWebsitesList → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: featured_websites_list.primary.description
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  description: prismic.RichTextField;
+
+  /**
+   * Link text field in *FeaturedWebsitesList → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: featured_websites_list.primary.link_text
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  link_text: prismic.KeyTextField;
+
+  /**
+   * Link field in *FeaturedWebsitesList → Primary*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: featured_websites_list.primary.link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link: prismic.LinkField;
+
+  /**
+   * anchor field in *FeaturedWebsitesList → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: featured_websites_list.primary.anchor
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  anchor: prismic.KeyTextField;
+}
+
+/**
+ * Primary content in *FeaturedWebsitesList → Items*
+ */
+export interface FeaturedWebsitesListSliceDefaultItem {
+  /**
+   * Prismic websites field in *FeaturedWebsitesList → Items*
+   *
+   * - **Field Type**: Integration Fields (Catalog: `slicify--prismic_websites`)
+   * - **Placeholder**: *None*
+   * - **API ID Path**: featured_websites_list.items[].website
+   * - **Documentation**: https://prismic.io/docs/field#integration
+   */
+  website: prismic.IntegrationField;
+}
+
+/**
+ * Default variation for FeaturedWebsitesList Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type FeaturedWebsitesListSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<FeaturedWebsitesListSliceDefaultPrimary>,
+  Simplify<FeaturedWebsitesListSliceDefaultItem>
+>;
+
+/**
+ * Primary content in *FeaturedWebsitesList → Primary*
+ */
+export interface FeaturedWebsitesListSliceAutoListPrimary {
+  /**
+   * Title field in *FeaturedWebsitesList → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: featured_websites_list.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.RichTextField;
+
+  /**
+   * Description field in *FeaturedWebsitesList → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: featured_websites_list.primary.description
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  description: prismic.RichTextField;
+
+  /**
+   * Link text field in *FeaturedWebsitesList → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: featured_websites_list.primary.link_text
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  link_text: prismic.KeyTextField;
+
+  /**
+   * Link field in *FeaturedWebsitesList → Primary*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: featured_websites_list.primary.link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link: prismic.LinkField;
+
+  /**
+   * anchor field in *FeaturedWebsitesList → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: featured_websites_list.primary.anchor
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  anchor: prismic.KeyTextField;
+}
+
+/**
+ * Auto List variation for FeaturedWebsitesList Slice
+ *
+ * - **API ID**: `autoList`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type FeaturedWebsitesListSliceAutoList = prismic.SharedSliceVariation<
+  "autoList",
+  Simplify<FeaturedWebsitesListSliceAutoListPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *FeaturedWebsitesList*
+ */
+type FeaturedWebsitesListSliceVariation =
+  | FeaturedWebsitesListSliceDefault
+  | FeaturedWebsitesListSliceAutoList;
+
+/**
+ * FeaturedWebsitesList Shared Slice
+ *
+ * - **API ID**: `featured_websites_list`
+ * - **Description**: FeaturedWebsitesList
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type FeaturedWebsitesListSlice = prismic.SharedSlice<
+  "featured_websites_list",
+  FeaturedWebsitesListSliceVariation
+>;
 
 /**
  * Primary content in *Features → Primary*
@@ -2631,6 +2893,101 @@ type HeroSliceVariation =
 export type HeroSlice = prismic.SharedSlice<"hero", HeroSliceVariation>;
 
 /**
+ * Primary content in *JobList → Primary*
+ */
+export interface JobListSliceDefaultPrimary {
+  /**
+   * Title field in *JobList → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: job_list.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Description field in *JobList → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: job_list.primary.description
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  description: prismic.RichTextField;
+
+  /**
+   * Image field in *JobList → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: job_list.primary.image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<never>;
+
+  /**
+   * Link text field in *JobList → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: job_list.primary.link_text
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  link_text: prismic.KeyTextField;
+
+  /**
+   * Link field in *JobList → Primary*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: job_list.primary.link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link: prismic.LinkField;
+
+  /**
+   * anchor field in *JobList → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: job_list.primary.anchor
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  anchor: prismic.KeyTextField;
+}
+
+/**
+ * Default variation for JobList Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type JobListSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<JobListSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *JobList*
+ */
+type JobListSliceVariation = JobListSliceDefault;
+
+/**
+ * JobList Shared Slice
+ *
+ * - **API ID**: `job_list`
+ * - **Description**: JobList
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type JobListSlice = prismic.SharedSlice<
+  "job_list",
+  JobListSliceVariation
+>;
+
+/**
  * Primary content in *LogoCloud → Primary*
  */
 export interface LogoCloudSliceDefaultPrimary {
@@ -2856,81 +3213,6 @@ type LogoCloudSliceVariation =
 export type LogoCloudSlice = prismic.SharedSlice<
   "logo_cloud",
   LogoCloudSliceVariation
->;
-
-/**
- * Primary content in *ManualSlice → Primary*
- */
-export interface ManualSliceSliceDefaultPrimary {
-  /**
-   * Title field in *ManualSlice → Primary*
-   *
-   * - **Field Type**: Rich Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: manual_slice.primary.title
-   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
-   */
-  title: prismic.RichTextField;
-
-  /**
-   * Description field in *ManualSlice → Primary*
-   *
-   * - **Field Type**: Rich Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: manual_slice.primary.description
-   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
-   */
-  description: prismic.RichTextField;
-
-  /**
-   * Image field in *ManualSlice → Primary*
-   *
-   * - **Field Type**: Image
-   * - **Placeholder**: *None*
-   * - **API ID Path**: manual_slice.primary.image
-   * - **Documentation**: https://prismic.io/docs/field#image
-   */
-  image: prismic.ImageField<never>;
-
-  /**
-   * cta field in *ManualSlice → Primary*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: manual_slice.primary.cta
-   * - **Documentation**: https://prismic.io/docs/field#key-text
-   */
-  cta: prismic.KeyTextField;
-}
-
-/**
- * Default variation for ManualSlice Slice
- *
- * - **API ID**: `default`
- * - **Description**: Default
- * - **Documentation**: https://prismic.io/docs/slice
- */
-export type ManualSliceSliceDefault = prismic.SharedSliceVariation<
-  "default",
-  Simplify<ManualSliceSliceDefaultPrimary>,
-  never
->;
-
-/**
- * Slice variation for *ManualSlice*
- */
-type ManualSliceSliceVariation = ManualSliceSliceDefault;
-
-/**
- * ManualSlice Shared Slice
- *
- * - **API ID**: `manual_slice`
- * - **Description**: ManualSlice
- * - **Documentation**: https://prismic.io/docs/slice
- */
-export type ManualSliceSlice = prismic.SharedSlice<
-  "manual_slice",
-  ManualSliceSliceVariation
 >;
 
 /**
@@ -3899,6 +4181,8 @@ declare module "@prismicio/client" {
       LandingPageDocument,
       LandingPageDocumentData,
       LandingPageDocumentDataSlicesSlice,
+      SearchDocument,
+      SearchDocumentData,
       AllDocumentTypes,
       ArticleListSlice,
       ArticleListSliceVariation,
@@ -3915,6 +4199,10 @@ declare module "@prismicio/client" {
       FaqSliceThreeColumns,
       FaqSliceCentered,
       FaqSliceCenteredWithBackground,
+      FeaturedWebsitesListSlice,
+      FeaturedWebsitesListSliceVariation,
+      FeaturedWebsitesListSliceDefault,
+      FeaturedWebsitesListSliceAutoList,
       FeaturesSlice,
       FeaturesSliceVariation,
       FeaturesSliceRightSide,
@@ -3932,15 +4220,15 @@ declare module "@prismicio/client" {
       HeroSliceTitleOnly,
       HeroSliceWithBackground,
       HeroSliceWithVideoBackground,
+      JobListSlice,
+      JobListSliceVariation,
+      JobListSliceDefault,
       LogoCloudSlice,
       LogoCloudSliceVariation,
       LogoCloudSliceDefault,
       LogoCloudSliceThreeColumns,
       LogoCloudSliceSingle,
       LogoCloudSliceSimpleDarkMode,
-      ManualSliceSlice,
-      ManualSliceSliceVariation,
-      ManualSliceSliceDefault,
       PricingSlice,
       PricingSliceVariation,
       PricingSliceDefault,
