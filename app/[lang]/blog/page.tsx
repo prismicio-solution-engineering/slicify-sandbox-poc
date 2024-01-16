@@ -8,9 +8,15 @@ import { ArticleListVertical } from "@/components/ArticleListVertical";
 import { Metadata } from "next";
 import { getLocales } from "@/utils/getLocales";
 
-export async function generateMetadata(): Promise<Metadata> {
+type PageParams = { lang: string };
+
+export async function generateMetadata({
+  params,
+}: {
+  params: PageParams;
+}): Promise<Metadata> {
   const client = createClient();
-  const page = await client.getSingle("blog_index");
+  const page = await client.getSingle("blog_index", { lang: params.lang });
 
   return {
     title: page.data.meta_title,
@@ -24,7 +30,7 @@ export default async function BlogIndex({
   params: { lang: string };
 }) {
 
-  
+
   const locales = await getLocales();
 
   const client = createClient();

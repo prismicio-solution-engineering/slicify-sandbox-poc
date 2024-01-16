@@ -36,19 +36,6 @@ const routes = [
   }
 ];
 
-// export function createClient({
-//   previewData,
-//   req,
-//   ...config
-// }: prismicNext.CreateClientConfig = {}) {
-//   const client = prismic.createClient(repositoryName, { routes, ...config });
-
-//   prismicNext.enableAutoPreviews({client});
-
-//   return client;
-// }
-
-
 export const createClient = (config = {}) => {
   const client = prismic.createClient(repositoryName, {
     routes,

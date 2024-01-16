@@ -1,7 +1,7 @@
 import { FooterDocumentData, HeaderDocumentData } from "@/prismicio-types";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, Suspense } from "react";
 
 type MarketingLayoutProps = {
   header: HeaderDocumentData;
@@ -17,7 +17,9 @@ export default function MarketingLayout(
 ) {
   return (
     <>
-      <Header header={props.header} languages={props.languages} />
+      <Suspense>
+        <Header header={props.header} languages={props.languages} />
+      </Suspense>
       {props.children}
       <Footer {...props.footer} />
     </>

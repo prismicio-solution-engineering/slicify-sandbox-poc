@@ -1,7 +1,6 @@
 import React from "react";
 import { ArticleListVertical } from "@/components/ArticleListVertical";
 import { performSearch } from "@/utils/performSearch";
-import { BlogArticleDocument } from "@/prismicio-types";
 import MarketingLayout from "@/components/MarketingLayout";
 import { getLanguages } from "@/utils/getLanguages";
 import { Content, asText } from "@prismicio/client";
@@ -9,9 +8,16 @@ import { createClient } from "@/prismicio";
 import { getLocales } from "@/utils/getLocales";
 import { Metadata } from "next";
 
-export async function generateMetadata(): Promise<Metadata> {
+
+type PageParams = { lang: string };
+
+export async function generateMetadata({
+  params,
+}: {
+  params: PageParams;
+}): Promise<Metadata> {
   const client = createClient();
-  const page = await client.getSingle("search");
+  const page = await client.getSingle("search",{lang:params.lang});
 
   return {
     title: asText(page.data.title),
@@ -36,19 +42,24 @@ export default async function SearchPage({
 
   const [page, header, footer] = await Promise.all([
     client.getSingle<Content.SearchDocument>("search", {
-      lang,
+      lang: lang,
     }),
     client.getSingle<Content.HeaderDocument>("header", {
-      lang,
+      lang: lang,
     }),
     client.getSingle<Content.FooterDocument>("footer", {
-      lang,
+      lang: lang,
     }),
   ]);
 
   // Pass the initialQuery to performSearch
-  const results = await performSearch(initialQuery ? initialQuery.trim() : "", lang=lang );
+  const results = await performSearch(initialQuery ? initialQuery.trim() : "", lang = lang);
   const languages = await getLanguages(page, client, locales);
+  if (searchParams.query) {
+    languages.forEach(function (language, index) {
+      languages[index].url = language.url + "?query=" + initialQuery
+    })
+  }
 
   return (
     <>

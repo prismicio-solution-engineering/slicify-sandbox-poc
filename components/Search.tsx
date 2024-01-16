@@ -1,11 +1,10 @@
 "use client";
-import { Fragment, useRef, useState } from "react";
+import { Fragment, MouseEventHandler, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { KeyTextField } from "@prismicio/client";
 
 interface SearchProps {
-  onSearch: (query: string) => void;
   title: KeyTextField;
   languages: {
     url: string;
@@ -14,7 +13,6 @@ interface SearchProps {
 }
 
 export const Search: React.FC<SearchProps> = ({
-  onSearch,
   languages,
   title,
 }) => {
@@ -27,23 +25,30 @@ export const Search: React.FC<SearchProps> = ({
   const cancelButtonRef = useRef(null);
 
   const [query, setQuery] = useState(searchParams.get("query") || "");
-
+  
   const handleSearch = () => {
     const params = new URLSearchParams(searchParams);
     // If on the search results page, call the onSearch callback in Header
     if (pathname.includes("search")) {
       params.set("query", query);
-      onSearch(query);
+      console.log("PARAMS HEADER", params.toString());
+      return router.push(
+        `/${languages[0].lang_name}/search?${params.toString()}`
+      );
     } else {
       // If not on the search results page, navigate to it with the query as a parameter
       params.set("query", query);
-      console.log("PARAMS", params.toString());
       router.push(`/${languages[0].lang_name}/search?${params.toString()}`);
     }
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    handleSearch();
+    setOpen(false);
+  };
+
+  const handleClick = () => {
     handleSearch();
     setOpen(false);
   };
@@ -125,7 +130,7 @@ export const Search: React.FC<SearchProps> = ({
                               <button
                                 type="button"
                                 className="inline-flex w-20 justify-center rounded-full bg-vibrant-blue px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:col-start-2"
-                                onClick={handleSearch}
+                                onClick={handleClick}
                               >
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"

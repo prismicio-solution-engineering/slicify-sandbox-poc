@@ -1,6 +1,4 @@
 import "@/styles/globals.css";
-import { PrismicPreview } from "@prismicio/next";
-import { repositoryName } from "@/prismicio";
 import { Metadata, Viewport } from "next";
 
 export const metadata: Metadata = {
@@ -15,20 +13,14 @@ export const viewport: Viewport = {
 };
 
 export default function RootLayout({
-  children,
+  children
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
   return (
     <html>
-      {/* <Header /> */}
-      {/* <Footer /> */}
-      <head>
-
-      </head>
       <body>
         {children}
-        <PrismicPreview repositoryName={repositoryName} />
       </body>
     </html>
   );

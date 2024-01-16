@@ -1,4 +1,4 @@
-"use client";
+'use client'
 import { Fragment, ReactNode } from "react";
 import Link from "next/link";
 import { Popover, Transition } from "@headlessui/react";
@@ -17,7 +17,6 @@ import { LanguageSwitcher } from "./LanguageSwitcher";
 import HeaderLinkDefault from "./HeaderLinkDefault";
 import HeaderLinkButton from "./HeaderLinkButton";
 import { Search } from "./Search";
-import { useRouter, useSearchParams } from "next/navigation";
 
 function MobileNavLink({
   link,
@@ -132,18 +131,6 @@ type HeaderProps = {
 };
 
 export function Header({ header, languages }: HeaderProps) {
-  const searchParams = useSearchParams();
-  const router = useRouter();
-
-  const handleSearch = (query: string) => {
-    // Go to search page with the query parameter
-    const params = new URLSearchParams(searchParams);
-    params.set("query", query);
-    console.log("PARAMS HEADER", params.toString());
-    return router.push(
-      `/${languages[0].lang_name}/search?${params.toString()}`
-    );
-  };
 
   return (
     <header className="py-10">
@@ -167,7 +154,6 @@ export function Header({ header, languages }: HeaderProps) {
                 }
               })}
               <Search
-                onSearch={handleSearch}
                 title={header.modal_title}
                 languages={languages}
               />

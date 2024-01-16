@@ -5,18 +5,15 @@ import { components as mktComponents } from "@/slices/marketing";
 import { components as blogComponents } from "@/slices/blog";
 import {
   blogArticleGraphQuery,
-  blogArticleLinkedArticlesGraphQuery,
 } from "@/utils/graphQueries";
 import { getLanguages } from "@/utils/getLanguages";
 import BlogLayout from "@/components/BlogLayout";
-import { SliceZone as TSliceZone } from "@prismicio/types";
 import { Content } from "@prismicio/client";
 import { notFound } from "next/navigation";
 import { getLocales } from "@/utils/getLocales";
+import { Metadata } from "next";
 
 type PageParams = { articleSlug: string[]; lang: string };
-
-import { Metadata } from "next";
 
 export async function generateMetadata({
   params,
@@ -25,7 +22,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const client = createClient();
   const page = await client
-    .getByUID("blog_article", params.articleSlug[params.articleSlug.length-1], {
+    .getByUID("blog_article", params.articleSlug[params.articleSlug.length - 1], {
       lang: params.lang
     })
     .catch(() => notFound());
@@ -42,11 +39,11 @@ export default async function BlogArticle({ params }: { params: PageParams }) {
   const client = createClient();
 
   const page = await client
-    .getByUID<prismic.Content.BlogArticleDocument>("blog_article", params.articleSlug[params.articleSlug.length-1], {
+    .getByUID<prismic.Content.BlogArticleDocument>("blog_article", params.articleSlug[params.articleSlug.length - 1], {
       graphQuery: blogArticleGraphQuery,
       lang: params.lang
     })
-    .catch(() => notFound() );
+    .catch(() => notFound());
 
   const [header, footer, languages] = await Promise.all([
     client.getSingle<Content.HeaderDocument>("header", {
@@ -76,7 +73,7 @@ export default async function BlogArticle({ params }: { params: PageParams }) {
 // Paths
 export async function generateStaticParams() {
   const client = createClient();
-  const pages = await client.getAllByType("blog_article",{lang:"*"});
+  const pages = await client.getAllByType("blog_article", { lang: "*" });
 
   function splitUrl(url: string) {
     // Split the URL by '/' and remove any empty strings from the result
@@ -84,22 +81,22 @@ export async function generateStaticParams() {
 
     // Assuming the URL format is consistent and has the language code as the first part,
     // category as the third part, and UID as the last part
-    if(parts.length===3){
+    if (parts.length === 3) {
       return {
         lang: parts[0] || '',
         articleSlug: [parts[2]] || ''
       };
     }
-    if(parts.length===4){
+    if (parts.length === 4) {
       return {
         lang: parts[0] || '',
-        articleSlug: [parts[2] || '' , parts[3] || '']
+        articleSlug: [parts[2] || '', parts[3] || '']
       };
     }
     return null
   }
 
   return pages.map((page) => {
-    return splitUrl(page.url!) ;
+    return splitUrl(page.url!);
   }).filter(page => page !== null);
 }

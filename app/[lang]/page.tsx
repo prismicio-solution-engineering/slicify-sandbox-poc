@@ -7,9 +7,15 @@ import MarketingLayout from "@/components/MarketingLayout";
 import { getLocales } from "@/utils/getLocales";
 import { Metadata } from "next";
 
-export async function generateMetadata(): Promise<Metadata> {
+type PageParams = { lang: string };
+
+export async function generateMetadata({
+  params,
+}: {
+  params: PageParams;
+}): Promise<Metadata> {
   const client = createClient();
-  const page = await client.getSingle("home_page"); // TODO : add graphquery to only fetch the fields and not the page
+  const page = await client.getSingle("home_page",{lang:params.lang}); // TODO : add graphquery to only fetch the fields and not the page
 
   return {
     title: page.data.meta_title,
