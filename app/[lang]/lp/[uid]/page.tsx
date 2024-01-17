@@ -1,7 +1,6 @@
 import { createClient } from "@/prismicio";
 import { Content } from "@prismicio/client";
 import { SliceZone } from "@prismicio/react";
-import * as prismic from "@prismicio/client";
 import { components } from "@/slices/marketing";
 import MarketingLayout from "@/components/MarketingLayout";
 import { getLanguages } from "@/utils/getLanguages";
