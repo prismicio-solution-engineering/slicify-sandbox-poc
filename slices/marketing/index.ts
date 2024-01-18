@@ -13,5 +13,6 @@ export const components = {
   job_list: dynamic(() => import("./JobList")),
   logo_cloud: dynamic(() => import("./LogoCloud")),
   pricing: dynamic(() => import("./Pricing")),
+  team_slice: dynamic(() => import("./TeamSlice")),
   testimonials: dynamic(() => import("./Testimonials")),
 };

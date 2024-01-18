@@ -1,0 +1,116 @@
+[
+	{
+		"__TYPE__": "SharedSliceContent",
+		"variation": "default",
+		"primary": {
+			"title": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Our team",
+							"spans": []
+						},
+						"direction": "ltr"
+					}
+				]
+			}
+		},
+		"items": [
+			{
+				"__TYPE__": "GroupItemContent",
+				"value": [
+					[
+						"name",
+						{
+							"__TYPE__": "FieldContent",
+							"type": "Text",
+							"value": "John Doe"
+						}
+					],
+					[
+						"position",
+						{
+							"__TYPE__": "FieldContent",
+							"type": "Text",
+							"value": "CEO"
+						}
+					],
+					[
+						"picture",
+						{
+							"origin": {
+								"id": "JQ2D4I-2eyw",
+								"url": "https://images.unsplash.com/flagged/photo-1553642618-de0381320ff3?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMzc0NjN8MHwxfHNlYXJjaHwzfHxjaGllZnxlbnwwfHx8fDE3MDU1ODUzMDF8MA&ixlib=rb-4.0.3&q=85",
+								"width": 3840,
+								"height": 5760
+							},
+							"url": "https://images.unsplash.com/flagged/photo-1553642618-de0381320ff3?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMzc0NjN8MHwxfHNlYXJjaHwzfHxjaGllZnxlbnwwfHx8fDE3MDU1ODUzMDF8MA&ixlib=rb-4.0.3&q=85&rect=0%2C960%2C3840%2C3840&w=200&h=200",
+							"width": 200,
+							"height": 200,
+							"edit": {
+								"background": "transparent",
+								"zoom": 1,
+								"crop": {
+									"x": 0,
+									"y": 960
+								}
+							},
+							"credits": null,
+							"alt": "man in suit jacket sitting down",
+							"__TYPE__": "ImageContent",
+							"thumbnails": {}
+						}
+					]
+				]
+			},
+			{
+				"__TYPE__": "GroupItemContent",
+				"value": [
+					[
+						"name",
+						{
+							"__TYPE__": "FieldContent",
+							"type": "Text",
+							"value": "Jane Doe"
+						}
+					],
+					[
+						"position",
+						{
+							"__TYPE__": "FieldContent",
+							"type": "Text",
+							"value": "CTO"
+						}
+					],
+					[
+						"picture",
+						{
+							"__TYPE__": "ImageContent",
+							"url": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMzc0NjN8MHwxfHNlYXJjaHw0fHxjaGllZnxlbnwwfHx8fDE3MDU1ODUzMDF8MA&ixlib=rb-4.0.3&q=85&rect=0%2C1000%2C4016%2C4016&w=200&h=200",
+							"alt": "shallow focus photo of woman in gray jacket",
+							"origin": {
+								"id": "0Zx1bDv5BNY",
+								"url": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMzc0NjN8MHwxfHNlYXJjaHw0fHxjaGllZnxlbnwwfHx8fDE3MDU1ODUzMDF8MA&ixlib=rb-4.0.3&q=85",
+								"width": 4016,
+								"height": 6016
+							},
+							"width": 200,
+							"height": 200,
+							"edit": {
+								"background": "transparent",
+								"zoom": 1,
+								"crop": {
+									"x": 0,
+									"y": 1000
+								}
+							},
+							"thumbnails": {}
+						}
+					]
+				]
+			}
+		]
+	}
+]
