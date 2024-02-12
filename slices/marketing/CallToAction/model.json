@@ -31,15 +31,25 @@
         },
         "cta_label": {
           "type": "Text",
-          "config": { "label": "Cta Label", "placeholder": "" }
+          "config": {
+            "label": "Cta Label",
+            "placeholder": ""
+          }
         },
         "cta_link": {
           "type": "Link",
-          "config": { "label": "Cta Link", "placeholder": "", "select": null }
+          "config": {
+            "label": "Cta Link",
+            "placeholder": "",
+            "select": null
+          }
         },
         "anchor": {
           "type": "Text",
-          "config": { "label": "anchor", "placeholder": "optional" }
+          "config": {
+            "label": "anchor",
+            "placeholder": "optional"
+          }
         }
       },
       "items": {},
@@ -72,15 +82,25 @@
         },
         "cta_label": {
           "type": "Text",
-          "config": { "label": "Cta Label", "placeholder": "" }
+          "config": {
+            "label": "Cta Label",
+            "placeholder": ""
+          }
         },
         "cta_link": {
           "type": "Link",
-          "config": { "label": "Cta Link", "placeholder": "", "select": null }
+          "config": {
+            "label": "Cta Link",
+            "placeholder": "",
+            "select": null
+          }
         },
         "anchor": {
           "type": "Text",
-          "config": { "label": "anchor", "placeholder": "optional" }
+          "config": {
+            "label": "anchor",
+            "placeholder": "optional"
+          }
         }
       },
       "items": {},
@@ -115,30 +135,47 @@
           "type": "Image",
           "config": {
             "label": "Featured Image",
-            "constraint": { "width": 912, "height": 615 },
+            "constraint": {
+              "width": 912,
+              "height": 615
+            },
             "thumbnails": []
           }
         },
         "anchor": {
           "type": "Text",
-          "config": { "label": "anchor", "placeholder": "optional" }
+          "config": {
+            "label": "anchor",
+            "placeholder": "optional"
+          }
         }
       },
       "items": {
         "cta_label": {
           "type": "Text",
-          "config": { "label": "Cta Label", "placeholder": "" }
+          "config": {
+            "label": "Cta Label",
+            "placeholder": ""
+          }
         },
         "cta_link": {
           "type": "Link",
-          "config": { "label": "Cta Link", "placeholder": "", "select": null }
+          "config": {
+            "label": "Cta Link",
+            "placeholder": "",
+            "select": null
+          }
         },
         "cta_type": {
           "type": "Select",
           "config": {
             "label": "Cta Type",
             "placeholder": "",
-            "options": ["Primary", "Secondary", "Text"]
+            "options": [
+              "Primary",
+              "Secondary",
+              "Text"
+            ]
           }
         }
       },
@@ -173,30 +210,46 @@
           "type": "Image",
           "config": {
             "label": "Featured Image",
-            "constraint": { "width": 1824, "height": 1080 },
+            "constraint": {
+              "width": 1824,
+              "height": 1080
+            },
             "thumbnails": []
           }
         },
         "anchor": {
           "type": "Text",
-          "config": { "label": "anchor", "placeholder": "optional" }
+          "config": {
+            "label": "anchor",
+            "placeholder": "optional"
+          }
         }
       },
       "items": {
         "cta_label": {
           "type": "Text",
-          "config": { "label": "Cta Label", "placeholder": "" }
+          "config": {
+            "label": "Cta Label",
+            "placeholder": ""
+          }
         },
         "cta_link": {
           "type": "Link",
-          "config": { "label": "Cta Link", "placeholder": "", "select": null }
+          "config": {
+            "label": "Cta Link",
+            "placeholder": "",
+            "select": null
+          }
         },
         "cta_type": {
           "type": "Select",
           "config": {
             "label": "Cta Type",
             "placeholder": "",
-            "options": ["Primary", "Secondary"]
+            "options": [
+              "Primary",
+              "Secondary"
+            ]
           }
         }
       },

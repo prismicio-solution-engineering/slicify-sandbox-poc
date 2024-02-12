@@ -696,7 +696,6 @@ export type HeaderDocument<Lang extends string = string> =
   >;
 
 type HomePageDocumentDataSlicesSlice =
-  | TeamSliceSlice
   | FeaturesSlice
   | PricingSlice
   | FormSlice
@@ -3439,86 +3438,6 @@ export type PricingSlice = prismic.SharedSlice<
 >;
 
 /**
- * Primary content in *TeamSlice → Primary*
- */
-export interface TeamSliceSliceDefaultPrimary {
-  /**
-   * Title field in *TeamSlice → Primary*
-   *
-   * - **Field Type**: Rich Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: team_slice.primary.title
-   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
-   */
-  title: prismic.RichTextField;
-}
-
-/**
- * Primary content in *TeamSlice → Items*
- */
-export interface TeamSliceSliceDefaultItem {
-  /**
-   * Picture field in *TeamSlice → Items*
-   *
-   * - **Field Type**: Image
-   * - **Placeholder**: *None*
-   * - **API ID Path**: team_slice.items[].picture
-   * - **Documentation**: https://prismic.io/docs/field#image
-   */
-  picture: prismic.ImageField<never>;
-
-  /**
-   * name field in *TeamSlice → Items*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: team_slice.items[].name
-   * - **Documentation**: https://prismic.io/docs/field#key-text
-   */
-  name: prismic.KeyTextField;
-
-  /**
-   * position field in *TeamSlice → Items*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: team_slice.items[].position
-   * - **Documentation**: https://prismic.io/docs/field#key-text
-   */
-  position: prismic.KeyTextField;
-}
-
-/**
- * Default variation for TeamSlice Slice
- *
- * - **API ID**: `default`
- * - **Description**: Default
- * - **Documentation**: https://prismic.io/docs/slice
- */
-export type TeamSliceSliceDefault = prismic.SharedSliceVariation<
-  "default",
-  Simplify<TeamSliceSliceDefaultPrimary>,
-  Simplify<TeamSliceSliceDefaultItem>
->;
-
-/**
- * Slice variation for *TeamSlice*
- */
-type TeamSliceSliceVariation = TeamSliceSliceDefault;
-
-/**
- * TeamSlice Shared Slice
- *
- * - **API ID**: `team_slice`
- * - **Description**: TeamSlice
- * - **Documentation**: https://prismic.io/docs/slice
- */
-export type TeamSliceSlice = prismic.SharedSlice<
-  "team_slice",
-  TeamSliceSliceVariation
->;
-
-/**
  * Primary content in *Testimonials → Primary*
  */
 export interface TestimonialsSliceDefaultPrimary {
@@ -4320,11 +4239,6 @@ declare module "@prismicio/client" {
       PricingSliceVariation,
       PricingSliceDefault,
       PricingSliceWithPromo,
-      TeamSliceSlice,
-      TeamSliceSliceDefaultPrimary,
-      TeamSliceSliceDefaultItem,
-      TeamSliceSliceVariation,
-      TeamSliceSliceDefault,
       TestimonialsSlice,
       TestimonialsSliceDefaultPrimary,
       TestimonialsSliceDefaultItem,
