@@ -313,17 +313,6 @@ interface BlogIndexDocumentData {
   title: prismic.TitleField;
 
   /**
-   * Description field in *Blog index*
-   *
-   * - **Field Type**: Rich Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: blog_index.description
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
-   */
-  description: prismic.RichTextField;
-
-  /**
    * Slice Zone field in *Blog index*
    *
    * - **Field Type**: Slice Zone

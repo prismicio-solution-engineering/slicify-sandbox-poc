@@ -34,19 +34,7 @@ export function BlogHeader(
                 <h1 className="font-display text-3xl sm:text-5xl font-medium tracking-tight text-dark-blue">
                   {children}
                 </h1>
-              ),
-              label: ({ node, children }) => {
-                return (
-                  <>
-                    {node.data.label === "highlight" && (
-                      <span className="relative font-display whitespace-nowrap text-vibrant-blue">
-                        <UnderlineDoodle className="absolute left-0 top-2/3 h-[0.58em] w-full fill-light-blue-70" />
-                        <span className="relative">{children}</span>
-                      </span>
-                    )}
-                  </>
-                );
-              },
+              )
             }}
           />
           <PrismicRichText

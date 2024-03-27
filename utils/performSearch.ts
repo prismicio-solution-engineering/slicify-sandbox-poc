@@ -1,10 +1,8 @@
 import * as prismic from "@prismicio/client";
 import { blogIndexGraphQuery } from "@/utils/graphQueries";
-import { repositoryName } from "@/prismicio"
+import { createClient } from "@/prismicio";
 
-const client = prismic.createClient(
-    repositoryName
-);
+const client = createClient();
 
 export const performSearch = async (query: string, lang: string) => {
     if (query) {
@@ -12,7 +10,7 @@ export const performSearch = async (query: string, lang: string) => {
             const response = await client.getByType("blog_article", {
                 lang,
                 filters: [
-                    prismic.filter.fulltext("my.blog_article.title", query)],
+                    prismic.filter.fulltext("document", query)],
                 graphQuery: blogIndexGraphQuery,
             });
             return response.results;

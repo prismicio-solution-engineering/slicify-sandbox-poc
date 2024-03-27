@@ -12,7 +12,6 @@ import {
   isOfTypeBlogCategoryDocument,
 } from "@/utils/graphQueries";
 import { getArticles } from "@/utils/getArticles";
-import { performSearch } from "@/utils/performSearch";
 
 type BlogIndexLayoutProps = {
   page: BlogIndexDocument | SearchDocument | null;
