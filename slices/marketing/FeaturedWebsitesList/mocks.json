@@ -25,18 +25,6 @@
 					}
 				]
 			},
-			"link_text": {
-				"__TYPE__": "FieldContent",
-				"value": "captain",
-				"type": "Text"
-			},
-			"link": {
-				"__TYPE__": "LinkContent",
-				"value": {
-					"__TYPE__": "ExternalLink",
-					"url": "https://slicemachine.dev"
-				}
-			},
 			"anchor": {
 				"__TYPE__": "FieldContent",
 				"value": "copper",
@@ -79,18 +67,6 @@
 						"direction": "ltr"
 					}
 				]
-			},
-			"link_text": {
-				"__TYPE__": "FieldContent",
-				"type": "Text",
-				"value": "Browse more websites"
-			},
-			"link": {
-				"__TYPE__": "LinkContent",
-				"value": {
-					"__TYPE__": "ExternalLink",
-					"url": "http://twitter.com"
-				}
 			},
 			"anchor": {
 				"__TYPE__": "FieldContent",

@@ -1700,26 +1700,6 @@ export interface FeaturedWebsitesListSliceDefaultPrimary {
   description: prismic.RichTextField;
 
   /**
-   * Link text field in *FeaturedWebsitesList → Primary*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: featured_websites_list.primary.link_text
-   * - **Documentation**: https://prismic.io/docs/field#key-text
-   */
-  link_text: prismic.KeyTextField;
-
-  /**
-   * Link field in *FeaturedWebsitesList → Primary*
-   *
-   * - **Field Type**: Link
-   * - **Placeholder**: *None*
-   * - **API ID Path**: featured_websites_list.primary.link
-   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
-   */
-  link: prismic.LinkField;
-
-  /**
    * anchor field in *FeaturedWebsitesList → Primary*
    *
    * - **Field Type**: Text
@@ -1781,26 +1761,6 @@ export interface FeaturedWebsitesListSliceAutoListPrimary {
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   description: prismic.RichTextField;
-
-  /**
-   * Link text field in *FeaturedWebsitesList → Primary*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: featured_websites_list.primary.link_text
-   * - **Documentation**: https://prismic.io/docs/field#key-text
-   */
-  link_text: prismic.KeyTextField;
-
-  /**
-   * Link field in *FeaturedWebsitesList → Primary*
-   *
-   * - **Field Type**: Link
-   * - **Placeholder**: *None*
-   * - **API ID Path**: featured_websites_list.primary.link
-   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
-   */
-  link: prismic.LinkField;
 
   /**
    * anchor field in *FeaturedWebsitesList → Primary*
