@@ -3,7 +3,6 @@ import { fetchJobOpenings } from "@/utils/getJobList";
 import { Content } from "@prismicio/client";
 import { PrismicNextImage, PrismicNextLink } from "@prismicio/next";
 import { PrismicRichText, SliceComponentProps } from "@prismicio/react";
-import { Key, ReactElement, JSXElementConstructor, ReactNode, ReactPortal, PromiseLikeOfReactNode } from "react";
 
 /**
  * Props for `JobList`.

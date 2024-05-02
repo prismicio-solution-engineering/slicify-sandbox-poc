@@ -68,7 +68,7 @@ export default function Form(slice: Content.FormSliceWithDetails) {
           </div>
           <dl className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:pt-2">
             {slice.items.map((feature, index) => (
-              <div className="flex flex-col items-start">
+              <div key={index} className="flex flex-col items-start">
                 <div className="rounded-md bg-white/5 p-2 ring-1 ring-white/10">
                   <PrismicNextImage
                     className="h-6 w-6 fill-none aria-hidden text-white"

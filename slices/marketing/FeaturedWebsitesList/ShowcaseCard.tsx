@@ -12,8 +12,8 @@ export const ShowcaseCard = ({ website }: { website: Website }) => {
         <div className="aspect-w-16 aspect-h-12 rounded-lg overflow-hidden relative bg-gray-F7">
           <img
             className="opacity-100 scale-100 transition-all ease-in-out duration-500 object-cover"
-            src={website?.screenshot.url}
-            alt={website?.screenshot.alt}
+            src={website?.screenshot?.url}
+            alt={website?.screenshot?.alt}
             sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 33vw"
           />
         </div>

@@ -41,7 +41,7 @@ async function HorizontalThreeColumn({
       // lang: locale,
       graphQuery: blogArticleGraphQuery,
     }
-  );
+  ).catch(() => {return {results:[]}});
 
   return (
     <div className="bg-white py-24 sm:py-32">
