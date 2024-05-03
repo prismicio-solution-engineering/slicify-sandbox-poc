@@ -61,6 +61,8 @@ export default async function LandingPage({ params }: { params: PageParams }) {
 }
 
 // Paths
+export const dynamicParams = true
+
 export async function generateStaticParams() {
   const client = createClient();
   const pages = await client.getAllByType("landing_page", { lang: "*" });

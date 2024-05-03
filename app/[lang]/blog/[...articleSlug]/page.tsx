@@ -71,6 +71,8 @@ export default async function BlogArticle({ params }: { params: PageParams }) {
 }
 
 // Paths
+export const dynamicParams = true
+
 export async function generateStaticParams() {
   const client = createClient();
   const pages = await client.getAllByType("blog_article", { lang: "*" });
