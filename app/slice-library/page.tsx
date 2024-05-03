@@ -16,6 +16,8 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
+export const dynamic = 'force-static'
+
 export default async function SliceLibraryPage() {
 
   const libraries = await extractModels();
