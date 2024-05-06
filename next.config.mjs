@@ -1,11 +1,11 @@
-import path from 'path'
-
 /** @type {import('next').NextConfig} */
 
 const nextConfig = async () => {
   return {
     experimental:{
-      outputFileTracingRoot: path.join(process.cwd(), './slices/')
+      outputFileTracingIncludes: {
+        '/slice-library': ['./slices/**/*']
+      }
     },
     reactStrictMode: true,
     images: {
