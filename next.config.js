@@ -2,6 +2,9 @@
 
 const nextConfig = async () => {
   return {
+    experimental:{
+      outputFileTracingRoot: path.join(process.cwd(), './slices/')
+    },
     reactStrictMode: true,
     images: {
       loader: "imgix",
