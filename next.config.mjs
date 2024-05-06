@@ -1,4 +1,4 @@
-import path from 'path';
+import path from 'path'
 
 /** @type {import('next').NextConfig} */
 
@@ -18,4 +18,4 @@ const nextConfig = async () => {
   };
 };
 
-module.exports = nextConfig;
+export default nextConfig;
